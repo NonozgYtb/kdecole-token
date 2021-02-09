@@ -1,0 +1,21 @@
+{
+  "name": "kdecole-token",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "kdecole-token": "./bin/index.js"
+  },
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "boxen": "^5.0.0",
+    "chalk": "^4.1.0",
+    "kdecole-api": "^1.0.18",
+    "yargs": "^16.2.0"
+  }
+}
