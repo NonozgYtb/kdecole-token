@@ -15,6 +15,7 @@
   "dependencies": {
     "boxen": "^5.0.0",
     "chalk": "^4.1.0",
+    "draftlog": "^1.0.12",
     "kdecole-api": "^1.0.18",
     "yargs": "^16.2.0"
   }

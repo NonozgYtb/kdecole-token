@@ -2,6 +2,7 @@
 
 const chalk = require("chalk");
 const boxen = require("boxen");
+const {gettingFile} = require("./path.js")
 
 var argv = require("yargs").argv;
 
@@ -18,27 +19,15 @@ kdecole-token <id> <code> (.env)
 	-e,  -env <.env>   Modification du fichier (.env) avec TOKEN=<votre token>`))
 else {
 	try {
+		gettingFile("../Kdecole-proj/")
+  	.then((e)=>{
+ 		console.log(e ? "yes" : "false")
+  	})
+  	.catch((e)=>{
+ 			Errors.PrintError(Errors.convert(e))}
+ 	)
 		var tok = require("kdecole-api").default.login("me","th");
 		tok.then(e=>console.log(e)).catch((e)=>{console.log(chalk.red(e.message))});
 		console.log(greeting, token, yes )
 	}catch(e){}
-}
-
-
-function compil(path) {
-	return fs.realpath(path, (err, pather)=>{
-	pather = String(pather).trim();
-	if(err) {
-		if(err.message.startsWith("ENOENT"))
-		console.error('Le fichier ou le dossier précisé n\'existe pas');
-		else
-		console.error(err.message); return
-		}
-	pather = path.join(pather,((pather)=>fs.statSync(pather).isDirectory() ? ".env": "")(pather))
-	try {
-	return (fs.existsSync(pather))
-} catch(e) {
-	return false
-}
-})
 }
