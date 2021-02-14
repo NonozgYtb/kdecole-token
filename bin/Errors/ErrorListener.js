@@ -8,14 +8,18 @@ require("fs").readdirSync(normalizedPath).forEach((file)=> {
 
 convertDatas = (err) => {
 	return {
-		"ENOENT": ["FileNotFoundError", err.path]
+		"ENOENT": ["FileNotFoundError", err.path],
+			"L'authentification n'a pas fonctionné" : ["AuthFailedError", "hi"]
 	}
 }
 
 module.exports.convert = (err) => {
-	if(convertDatas(err)[err.code] != undefined) {
-		let name = convertDatas(err)[err.code][0]
-		let args = convertDatas(err)[err.code].slice(1);
+	var errout = convertDatas(err)[err.code]
+	if(errout == undefined)
+		errout = convertDatas(err)[err.message]
+	if(errout != undefined) {
+		let name = errout[0]
+		let args = errout.slice(1);
 		let eerr = new required[name](...args);
 		//console.error(new required[name](...args).stack, err.stack);
 		return eerr;

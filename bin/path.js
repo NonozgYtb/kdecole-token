@@ -30,6 +30,7 @@ function gettingFile(pathIn) {
 	};
 	draftFile("start");
 	draftDir("start");
+	console.log("");
 	return new Promise((resolve, reject)=>{
 		fs.realpath(pathIn, (err, pather)=>{
 			pather = String(pather).trim();
@@ -42,7 +43,7 @@ function gettingFile(pathIn) {
 			if(err) {
 				draftDir(false);
 				draftFile(false);
-				reject(new Errors.DirectoryNotFoundError(err.path));
+				reject(new Errors.FileNotFoundError(err.path));
 				return
 			}
 			draftDir(true);
@@ -53,7 +54,7 @@ function gettingFile(pathIn) {
 					if(res) arr[1] = res
 				}catch(e) {
 					draftFile(false);
-					reject(new Errors.FileNotFoundError(pather+"1"));
+					reject(new Errors.FileNotFoundError(pather));
 					return
 				}
 			}
@@ -68,12 +69,12 @@ function gettingFile(pathIn) {
 				}else{
 
 					draftFile(false);
-					reject(new Errors.FileNotFoundError(pather+"2"));
+					reject(new Errors.FileNotFoundError(pather));
 					return;
 				}
 			} catch(e) {
 				draftFile(false);
-				reject(new Errors.FileNotFoundError(pather+"3"));
+				reject(new Errors.FileNotFoundError(pather));
 				return
 			}
 		})

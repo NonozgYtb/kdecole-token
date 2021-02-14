@@ -7,7 +7,8 @@
   },
   "main": "bin/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm i -g . && kdecole-token ii cc ee"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +17,7 @@
     "boxen": "^5.0.0",
     "chalk": "^4.1.0",
     "draftlog": "^1.0.12",
-    "kdecole-api": "^1.0.18",
+    "kdecole-api": "^1.0.19",
     "yargs": "^16.2.0"
   }
 }
