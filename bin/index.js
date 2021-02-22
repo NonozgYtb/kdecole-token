@@ -10,7 +10,7 @@ const {
 	Errors
 } = require("./modules.js")
 
-var path = "../.env";
+var path = "./.env";
 
 
 let fn = (getter,path,verifCallback) => {
@@ -48,13 +48,17 @@ getter
 var getToken = Promise.resolve(require("faker").random.uuid().toUpperCase().replaceAll("-", ""));
 var tester = Promise.resolve("KDECOLE-TOKEN");
 if(path) {
-	Draft.init(true);
+	Draft.init();
 	fn(tester,path,()=>{
 		if(Draft.getState("writefile") == true) {
-			Draft.reset().init();
+			//Draft.reset().init();
 			fn(getToken, path, ()=>{});
 		}
 	});
 }
 
 
+// TODO : Faire la mise en forme 
+// TODO : La gestion d'erreur si le test n'a pas marché (Fait / A tester)
+// TODO : Faire quand il n'y a pas de path
+// TODO : Rajouter un draft special pour le print du token
