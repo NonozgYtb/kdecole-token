@@ -2,6 +2,7 @@ const chalk = require("chalk");
 require("draftlog").into(console)
 
 const drafter = {
+	"gettoken": "Getting token from API",
 	"checkdir": "Checking Directory exist",
 	"checkfile": "Checking File exist",
 	"getfile": "Getting data from file",
@@ -21,15 +22,27 @@ class Draft {
 		this._data = [];
 		this.drafter = drafter;
 		this.values = values;
+		this._data.drafts = [];
+		this._data.states = [];
 		this._data.init = false;
 	}
-	init() {
-		this._data.init = true;
+	reset() {
+		this._data = [];
+		this.drafter = drafter;
+		this.values = values;
 		this._data.drafts = [];
-		this._data.states = []
+		this._data.states = [];
+		this._data.init = false;
+		return this;
+	}
+	init(fake) {
+		this._data.init = true;
 		this._data.keys = Object.keys(drafter);
 		this._data.keys.forEach((e)=>{
-			this._data.drafts[e] = console.draft(); 
+			if(!fake)
+				this._data.drafts[e] = console.draft(); 
+			else
+				this._data.drafts[e] = ()=>{}; 
 			this._data.states[e] = null;
 			this.setDraft(e, null)
 		});
@@ -66,7 +79,7 @@ class Draft {
 }
 
 const instance = new Draft();
-Object.freeze(instance);
+//Object.freeze(instance);
 module.exports.Draft = instance;
 
 /*
