@@ -2,6 +2,8 @@ const dotenv = require('dotenv');
 const fs = require("fs");
 const chalk = require("chalk");
 
+const { Draft } = require("./draft.js");
+
 fs.readFileAsync = (filename) => {
 	return new Promise((resolve, reject)=>{
 		fs.readFile(filename, (err, data)=>{
@@ -27,7 +29,7 @@ fs.readFileAsync("../.env")
 	})
 	.catch((err)=>{
 		console.error(err)
-	})
+	}) // stop
 	.then(envstr => {console.log(envstr);
 			fs.writeFile("../.env", envstr, (err)=>{
 				if(err)

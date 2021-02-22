@@ -29,7 +29,7 @@ var tokFunc = (dir) => {
 	    console.log("Writing file " + chalk.green("OK"));
 	});
       })
-      .catch((e) => {Errors.PrintError(Errors.convert(e));});
+      .catch((e) => {Errors.PrintError(Errors.convert(e))});
 }
 
 //console.log(process.cwd());
