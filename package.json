@@ -7,6 +7,7 @@
   },
   "main": "bin/index.js",
   "scripts": {
+    "runnin": "echo -e \"G=gg\\n:wq\\n\" | vim ./path.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm i -g . && kdecole-token ii cc ee"
   },
@@ -16,8 +17,12 @@
   "dependencies": {
     "boxen": "^5.0.0",
     "chalk": "^4.1.0",
+    "dotenv": "^8.2.0",
     "draftlog": "^1.0.12",
     "kdecole-api": "^1.0.19",
     "yargs": "^16.2.0"
+  },
+  "devDependencies": {
+    "faker": "^5.4.0"
   }
 }

@@ -64,7 +64,7 @@ function gettingFile(pathIn) {
 				let res = fs.existsSync(pather);
 				if(res) {	
 					draftFile(true);
-					resolve(res);
+					resolve(pather);
 					return;
 				}else{
 

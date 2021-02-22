@@ -9,7 +9,10 @@ require("fs").readdirSync(normalizedPath).forEach((file)=> {
 convertDatas = (err) => {
 	return {
 		"ENOENT": ["FileNotFoundError", err.path],
-			"L'authentification n'a pas fonctionné" : ["AuthFailedError", "hi"]
+		"EACCES": ["ForbiddenError", err.path],
+		"L'authentification n'a pas fonctionné" : ["AuthFailedError"],
+		"Un jeton d'accès doit être renseigné" : ["EmptyTokenError"],
+		"Une erreur est survenue dans le traitement des données de déconnexion" : ["LogoutError"]
 	}
 }
 
