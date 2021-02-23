@@ -39,10 +39,7 @@ class Draft {
 		this._data.init = true;
 		this._data.keys = Object.keys(drafter);
 		this._data.keys.forEach((e)=>{
-			if(!fake)
-				this._data.drafts[e] = console.draft(); 
-			else
-				this._data.drafts[e] = ()=>{}; 
+			this._data.drafts[e] = console.draft(); 
 			this._data.states[e] = null;
 			this.setDraft(e, null)
 		});

@@ -10,7 +10,7 @@ function FileNotFoundError(message_path, nomFichier, numeroLigne) {
 		Error.captureStackTrace(instance, FileNotFoundError);
 	}
 	let cl = instance.stack.split("\n")
-	cl.splice(1,1)
+	//cl.splice(1,1)
 	let sta = cl.join("\n");
 	instance.stack = sta;
 	return instance;

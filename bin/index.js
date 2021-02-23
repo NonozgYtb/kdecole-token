@@ -1,60 +1,49 @@
+#!/usr/bin/env node
+
 const {
-	writefile,
 	argsExtract,
-	envGet,
-	fsReadFileAsync,
-	fsWriteFileAsync,
-	gettingFile,
 	Draft,
 	chalk,
-	Errors
-} = require("./modules.js")
+	assembler
+} = require("./modules.js");
 
-var path = "./.env";
-
-
-let fn = (getter,path,verifCallback) => {
-getter
-	.then(token => {
-
-		Draft.setDraft("gettoken", true);
-		if(path) {
-		/* .env Part */
-		gettingFile(path)
-			.then((pathVerified) => {
-				envGet(pathVerified, "TOKEN", token).then(data => {
-					if(typeof data == "string")
-					writefile(path, data).then(verif => {
-						verifCallback(verif, path, data);
-					});
-					else {
-						throw new Errors.ParsingError();
-					}
-				})
-				.catch((e)=>{});
-			}).catch((err) => {
-				Errors.PrintError(Errors.convert(err));
-			});
-		/* .env Part */
-		}
-	}).catch((err) => {
-		Draft.setDraft("gettoken", false);
-		Errors.PrintError(Errors.convert(err));
-	});
+var {
+	token,
+	code,
+	env,
+	name,
+	force
+} = argsExtract(require("yargs").argv);
+if (token == false || code == false) {
+	console.log(chalk('Vous devez remplir la commande via :' + '\n' +
+		'kdecole-token <id> <code> (.env) (TOKEN_NAME) (--force)' + '\n' +
+		'	-i,  --id    Id du compte Kdecole' + '\n' +
+		'	-c,  --code  Code de validation de l\'application mobile' + '\n' +
+		'	-e,  --env <.env>   Modification du fichier (.env) avec TOKEN=<votre token>' + '\n' +
+		'	-n,  --name  Nom de la variable dans le .env (Token par défault)' + '\n' +
+		'	-f,  --force Forcer l\'écriture du .env en cas de dysfonctionnement du parseur'));
+	return;
 }
 
-
+/*
+env = "./env"; | path
+token = "user.name";
+code = "PASS1234WORD"; > Temp Cod
+name = "TOKEN_KDECOLE";
+name = "true";
+*/
 //var getToken = require("kdecole-api").Kdecole.login(token, code);
 var getToken = Promise.resolve(require("faker").random.uuid().toUpperCase().replaceAll("-", ""));
 var tester = Promise.resolve("KDECOLE-TOKEN");
-if(path) {
+if (env) {
 	Draft.init();
-	fn(tester,path,()=>{
-		if(Draft.getState("writefile") == true) {
-			//Draft.reset().init();
-			fn(getToken, path, ()=>{});
+	assembler(tester, env, name, force, () => {
+		if (Draft.getState("writefile") == true) {
+			assembler(getToken, env, name, force);
 		}
 	});
+} else {
+	assembler(getToken, path, () => {});
 }
 
 
