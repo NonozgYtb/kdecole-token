@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "boxen": "^5.0.0",
     "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
     "draftlog": "^1.0.12",

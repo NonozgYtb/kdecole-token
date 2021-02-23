@@ -9,6 +9,8 @@ const drafter = {
 	"writefile": "Writing file from new data"
 }
 
+const envNotExist = ["gettoken"];
+
 const values = {
 	true: chalk.green("OK"),
 	false: chalk.red("ERROR"),
@@ -24,23 +26,20 @@ class Draft {
 		this.values = values;
 		this._data.drafts = [];
 		this._data.states = [];
+		this._data.block = [];
+		this._data.returnKeys = {};
 		this._data.init = false;
 	}
-	reset() {
-		this._data = [];
-		this.drafter = drafter;
-		this.values = values;
-		this._data.drafts = [];
-		this._data.states = [];
-		this._data.init = false;
-		return this;
-	}
-	init(fake) {
+	init(envExist) {
 		this._data.init = true;
 		this._data.keys = Object.keys(drafter);
+		this._data.keys.forEach((v,k)=>{this._data.returnKeys[v] = k})
 		this._data.keys.forEach((e)=>{
+			if(envExist == undefined && !envNotExist.includes(e))
+				return;
 			this._data.drafts[e] = console.draft(); 
 			this._data.states[e] = null;
+			this._data.block[e] = false;
 			this.setDraft(e, null)
 		});
 		return this;
@@ -54,13 +53,13 @@ class Draft {
 		return this._data.states[key]
 	}
 	setDraft(key, value, add) {
-		if(!this._data.init) return this;
 		this._data.states[key] = value;
 		add ??= "";
-		this._data.drafts[key](drafter[key]+"  "+values[value]+" "+add);
-		if(value === false)
-			this.abort([key]);
-		return this.getDraft(key);
+		if(this._data.block[key] !== true) {
+			this._data.drafts[key](drafter[key]+"  "+values[value]+" "+add);
+			if(value !== true && value !== null)
+				this._data.block[key] = true;
+		}
 	}
 	setDraftChain() {
 		if(!this._data.init) return this;
@@ -68,10 +67,15 @@ class Draft {
 	}
 	abort(except) {
 		except ??= [];
+		var max = 0;
+		except.forEach((e)=>{
+			if(this._data.returnKeys[e] > max) 
+				max = this._data.returnKeys[e];
+		});
 		Object.entries(this._data.states).forEach(e=>{
-			if(e[1] == null && !except.includes(e[0]))
+			if(e[1] !== false && e[1] !== 0.5 && !except.includes(e[0]) && this._data.returnKeys[e[0]] > max)
 				this.setDraft(e[0], "abort");
-			});
+			})
 	}
 }
 

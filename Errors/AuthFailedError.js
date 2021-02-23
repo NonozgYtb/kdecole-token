@@ -8,7 +8,6 @@ function AuthFailedError(message,nomFichier, numeroLigne) {
 	if(Error.captureStackTrace) {
 		Error.captureStackTrace(instance, AuthFailedError);
 	}
-	instance.stack.split("\n").slice(2).join("\n");
 	return instance;
 }
 

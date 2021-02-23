@@ -8,7 +8,6 @@ function EmptyTokenError(message,nomFichier, numeroLigne) {
 	if(Error.captureStackTrace) {
 		Error.captureStackTrace(instance, EmptyTokenError);
 	}
-	instance.stack.split("\n").slice(2).join("\n");
 	return instance;
 }
 

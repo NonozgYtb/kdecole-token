@@ -9,7 +9,6 @@ function DirectoryNotFoundError(message_path, nomFichier, numeroLigne) {
 	if(Error.captureStackTrace) {
 		Error.captureStackTrace(instance, DirectoryNotFoundError);
 	}
-	instance.stack.split("\n").slice(2).join("\n");
 	return instance;
 }
 

@@ -9,7 +9,6 @@ function ParsingError(path, nomFichier, numeroLigne) {
 	if(Error.captureStackTrace) {
 		Error.captureStackTrace(instance, ParsingError);
 	}
-	instance.stack.split("\n").slice(2).join("\n");
 	return instance;
 }
 

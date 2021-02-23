@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path")
 const chalk = require("chalk")
-const Errors = require("./Errors/ErrorListener")
+const Errors = require("../Errors/ErrorListener")
 const {
 	Draft
 } = require("./draft.js")
@@ -11,6 +11,7 @@ var gettingFile = pathIn => new Promise((resolve, reject) => {
 		if (pather == undefined || err) {
 			Draft.setDraft('checkdir', false);
 			Draft.setDraft('checkfile', false);
+			Draft.abort();
 			returnErr = (err) ? new Errors.FileNotFoundError(err.path) : new Errors.EmptyDirError("empty input");
 			reject(err);
 			return
@@ -22,6 +23,7 @@ var gettingFile = pathIn => new Promise((resolve, reject) => {
 			if (res) arr[1] = res
 		} catch (e) {
 			Draft.setDraft('checkfile', false);
+			Draft.abort();
 			reject(new Errors.FileNotFoundError(pather));
 			return
 		}
@@ -43,6 +45,7 @@ var gettingFile = pathIn => new Promise((resolve, reject) => {
 			return pather;
 		} catch (e) {
 			Draft.setDraft('checkfile', false);
+			Draft.abort();
 			reject(new Errors.FileNotFoundError(pather));
 			return
 		}

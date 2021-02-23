@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 const fs = require("fs");
 const chalk = require("chalk");
 const Draft = require("./draft.js").Draft;
-const Errors = require("./Errors/ErrorListener");
+const Errors = require("../Errors/ErrorListener");
 const {
 	gettingFile
 } = require("./path.js");
@@ -36,11 +36,15 @@ var envGet = (path, token_name, token_value, force) => fsReadFileAsync(path)
 		force ??= false;
 		let returned = [];
 		let a = dotenv.parse(e.toString());
-		var verifEmptyRaw = e.toString().replaceAll(/\n|\t|{|}|\s/g, "");
-		if (Object.keys(a).length <= 0 && force !== true && verifEmptyRaw.length > 0 && verifier !== true) {
-			Draft.setDraft("getfile", 0.5, chalk.italic.white("Parse .env failed : Escape"));
-			throw new Errors.ParsingError(path);
-			return new Errors.ParsingError(path);
+		var verifEmptyRaw = e.toString().replaceAll(/\n|\t|\s/g, "");
+		if (Object.keys(a).length <= 0 && verifEmptyRaw.length > 0) {
+			if(force !== true) {
+				Draft.setDraft("getfile", false);
+				throw new Errors.ParsingError(path);
+				return new Errors.ParsingError(path);
+			}else{
+				Draft.setDraft("getfile", 0.5, chalk.italic.white("Parse .env failed : Forced"));
+			}
 		}
 		a[token_name] = token_value;
 		Object.keys(a).forEach(key => {
@@ -94,13 +98,14 @@ var writefile = (path, data) => {
 	});
 }
 
-let assembler = (getter, path, tokenname, force, verifCallback) => {
-	getter
+let assembler = (getter, path, tokenname, force, verifCallback) => getter
 		.then(token => {
-
 			Draft.setDraft("gettoken", true);
+			
+			if(verifCallback === true)
+				console.log("\nYour Kdecole Token :\n"+token+"\n");
+			
 			if (path) {
-				/* .env Part */
 				gettingFile(path)
 					.then(pathVerified => {
 						envGet(pathVerified, tokenname, token, force).then(data => {
@@ -113,17 +118,17 @@ let assembler = (getter, path, tokenname, force, verifCallback) => {
 									throw new Errors.ParsingError();
 								}
 							})
-							.catch((e) => {});
+							.catch((err) => {});
 					}).catch((err) => {
 						Errors.PrintError(Errors.convert(err));
 					});
-				/* .env Part */
 			}
 		}).catch((err) => {
+			if(verifCallback === true)
+				console.log(chalk.italic.cyan("\nLe test de fonctionnement a bien marché, seul le problème du token est présent !"));
 			Draft.setDraft("gettoken", false);
-			Errors.PrintError(Errors.convert(err));
+			Errors.PrintError(Errors.convert(err), "tokenErr");
 		});
-}
 
 module.exports = {
 	writefile,
