@@ -37,9 +37,10 @@ name = "TOKEN_KDECOLE";
 name = "true";
 */
 var getterGetToken = () => {
-    //let getToken = require("kdecole-api").Kdecole.login(token, code);
-    /* Tests with faker*/
-    let getToken = Promise.resolve(require("faker").random.uuid().toUpperCase().replaceAll("-", ""));
+    let getToken = require("kdecole-api").Kdecole.login(token, code);
+    /* Tests with faker and manually*/
+    //let getToken = Promise.resolve(require("faker").random.uuid().toUpperCase().replaceAll("-", ""));
+    //let getToken = Promise.resolve("DJKDHGDHGJKDHGVDJHGDK");
     return getToken;
 }
 var tester = Promise.resolve("KDECOLE__TOKEN");
